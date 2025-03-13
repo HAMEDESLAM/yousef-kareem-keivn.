@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    
+
+    
+        let library = [
+        { id: 1, title: "The Alchemist", author: "Paulo Coelho", isBorrowed: false },
+        { id: 2, title: "Harry Potter", author: "J.K. Rowling", isBorrowed: false },
+        { id: 3, title: "1984", author: "George Orwell", isBorrowed: false }
+        ];
+
+    
+        function addBook(id, title, author) {
+        library.push({ id, title, author, isBorrowed: false });
+        }
+
+     ID
+        function removeBook(id) {
+        library = library.filter(book => book.id !== id);
+        }
+
+     المتاحة
+        function listAvailableBooks() {
+        return library.filter(book => !book.isBorrowed);
+        }
+
+    
+        function borrowBook(id) {
+        let book = library.find(book => book.id === id);
+        if (book && !book.isBorrowed) {
+        book.isBorrowed = true;
+        return `${book.title} successfully loaned`;
+        }
+        return "the book is not available for borrowing";
+        }
+
+        function returnBook(id) {
+        let book = library.find(book => book.id === id);
+        if (book && book.isBorrowed) {
+        book.isBorrowed = false;
+        return `${book.title} return sucssefuly`;
+        }
+        return "this book doesn`t exist";
+        }
+
+        function listBorrowedBooks() {
+        return library.filter(book => book.isBorrowed);
+        }
+
+    
+        function totalBooks() {
+        return library.length;
+        }
+
+        function countBorrowedBooks() {
+        return library.filter(book => book.isBorrowed).length;
+        }
+
+        function countAvailableBooks() {
+        return library.filter(book => !book.isBorrowed).length;
+        }
+
+        function mostBorrowedAuthor() {
+        let borrowCount = {};
+        library.forEach(book => {
+        if (book.isBorrowed) {
+            borrowCount[book.author] = (borrowCount[book.author] || 0) + 1;
+        }
+        });
+
+        return Object.keys(borrowCount).reduce((a, b) => (borrowCount[a] > borrowCount[b] ? a : b), "No metaphors yet");
+        }
+
+    
+        function generateReport() {
+        return `
+        📊 library report :
+        --------------------
+        📚 total books : ${totalBooks()}
+        📕 loaned books: ${countBorrowedBooks()}
+        📗 available books: ${countAvailableBooks()}
+        ✍️ the most borrowed auther: ${mostBorrowedAuthor()}
+        --------------------
+        `;
+        }
+
+    
+        console.log("📌 before any operations:");
+        console.log(generateReport());
+
+        addBook(4, "Clean Code", "Robert C. Martin");
+        console.log("✅ a new book has been added");
+
+        console.log(borrowBook(2));
+        console.log(borrowBook(3));
+        console.log("📌 After borrowing some books:");
+        console.log(generateReport());
+
+        console.log(returnBook(2));
+        console.log("📌 After re-booking:");
+        console.log(generateReport());
+
+        console.log("📚 List of available books:", listAvailableBooks());
+        console.log("📕 List of borrowed books:", listBorrowedBooks());
+
+    </script>
+</body>
+</html>
